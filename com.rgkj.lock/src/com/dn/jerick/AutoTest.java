@@ -408,6 +408,9 @@ public class AutoTest {
 		case "addadmin":
 			ui.addAdmin(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8));
 			break;	
+		case "addgl":
+			ui.addgl(line.get(3),line.get(4),line.get(5));
+			break;
 		default:
 			System.out.println("关键字未实现!");
 		}

@@ -585,5 +585,29 @@ public class U_KeyWords {
 			alert();
 		}
 	}
+	
+	//增加管理员并选择角色权限
+	public void addgl(String xpath1, String xpath2, String xpath3) {
+		//点击账号管理
+		click("//*[@id=\"account_power\"]/a/span");
+		//点击新增账号
+		click("//*[@id=\"is_add_account\"]");
+		//填写用户名
+		input("//*[@id=\"account_name\"]",xpath1);
+		//填写密码
+		input("//*[@id=\"account_pw\"]",xpath2);
+		//确认用户密码
+		input("//*[@id=\"again_account_pw\"]",xpath2);
+		//选择用户角色
+		click("/html/body/div[1]/div[3]/div/div/div[2]/div[4]/div[2]/div/button/div/div/div");
+		input("/html/body/div[1]/div[3]/div/div/div[2]/div[4]/div[2]/div/div/div[1]/input",xpath3);
+		click("/html/body/div[1]/div[3]/div/div/div[2]/div[4]/div[2]/div/div/div[2]/ul/li/a");
+		//点击确定
+		click("//*[@id=\"sure_adds\"]");
+		sleep("1000");
+		// 点击确定弹窗
+		alert();
+	}
+	
 
 }
