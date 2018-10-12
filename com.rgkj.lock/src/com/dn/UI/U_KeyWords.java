@@ -381,33 +381,35 @@ public class U_KeyWords {
 			System.out.println("screen shot finished");
 		}
 	}
+
 	// 报错时截图操作
-		public void saveScrShot(String method) {
-			
-			// 获取当前的执行时间
-			Date date = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd+HH-mm-ss");
-			//当前时间的字符串
-			String createdate = sdf.format(date);
-			
-			// 拼接文件名，形式为：工作目录路径+方法名+执行时间.png
-			String scrName = "SCRshot/" + method + createdate + ".png";
-			// 以当前文件名创建文件
-			File scrShot = new File(scrName);
-			// 将截图保存到临时文件
-			File tmp = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-			try {
-				FileUtils.copyFile(tmp, scrShot);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	public void saveScrShot(String method) {
+
+		// 获取当前的执行时间
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd+HH-mm-ss");
+		// 当前时间的字符串
+		String createdate = sdf.format(date);
+
+		// 拼接文件名，形式为：工作目录路径+方法名+执行时间.png
+		String scrName = "SCRshot/" + method + createdate + ".png";
+		// 以当前文件名创建文件
+		File scrShot = new File(scrName);
+		// 将截图保存到临时文件
+		File tmp = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+		try {
+			FileUtils.copyFile(tmp, scrShot);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	}
+
 	// 显式等待,等待可点击元素出现即可执行下一指令
 	public void explicityWate(String xpath) {
 		// 设置等待的最大时长，10秒
 		WebDriverWait wait = new WebDriverWait(driver, 10);
-		//等待条件为指定的元素出现
+		// 等待条件为指定的元素出现
 		wait.until(new ExpectedCondition<WebElement>() {
 			public WebElement apply(WebDriver d) {
 				return d.findElement(By.xpath(xpath));
@@ -425,8 +427,20 @@ public class U_KeyWords {
 			e.printStackTrace();
 		}
 	}
+	
+	//移动页面至指定坐标
+	public void pageNext(String num) {
+		try {
+			((JavascriptExecutor) driver).executeScript("window.scrollBy(0, "+num+")");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("移动到指定坐标失败");
+			e.printStackTrace();
+		}
+	}
 
-	// 添加设备号
+
+	// 添加设备号,默认电信，批量添加，测试用
 	public void addnum(String xpath1, String xpath2, String xpath3, String xpath4, String num1, String num2,
 			String num3, String num) {
 
@@ -445,115 +459,137 @@ public class U_KeyWords {
 			alert();
 		}
 	}
-	
-	//添加单个房间简易版
-		public void addr(String num, String num1,String num2) {
-						// 点击添加房源管理
-						click("//*[@id=\"house_manage_sp\"]/a/span");
-						// 搜索栏填入相关房源
-						sleep("2000");
-						input("//*[@id=\"search_name\"]", num);
-						// 点击搜索
-						click("//*[@id=\"search_house\"]");
-						// 点击添加房间按钮
-						sleep("2000");
-						click("//*[@id=\"add_house\"]");
-						//输入房间号
-						input("//*[@id=\"roomNum\"]", num1);
-						//点击门锁选项卡
-						click("/html/body/div[3]/div/div/div[2]/div[2]/div[2]/div/button/span[1]");
-						//输入门锁编号
-						sleep("1000");
-						input("/html/body/div[3]/div/div/div[2]/div[2]/div[2]/div/div/div/input", num2);
-						click("/html/body/div[3]/div/div/div[2]/div[2]/div[2]/div/div/ul/li[2]/a");				
-						// 点击确定
-						sleep("1000");
-						click("/html/body/div[3]/div/div/div[3]/button[1]");
-						sleep("2000");
-						// 点击确定弹窗
-						alert();
-		}
-	
-	
-	//添加单个房间
-	public void addroom(String xpath1, String xpath2, String xpath3, String xpath4, String xpath5, String xpath6,String xpath7,String xpath8,
-			String num, String num1,String num2) {
-					// 点击添加房源管理
-					click(xpath1);
-					// 搜索栏填入相关房源
-					sleep("2000");
-					input(xpath2, num);
-					// 点击搜索
-					click(xpath3);
-					// 点击添加房间按钮
-					sleep("2000");
-					click(xpath4);
-					//输入房间号
-					input(xpath5, num1);
-					//点击门锁选项卡
-					click(xpath6);
-					//输入门锁编号
-					sleep("1000");
-					input(xpath7, num2);
-					click("/html/body/div[3]/div/div/div[2]/div[2]/div[2]/div/div/ul/li[2]/a");				
-					// 点击确定
-					sleep("1000");
-					click(xpath8);
-					sleep("2000");
-					// 点击确定弹窗
-					alert();
-	}
-	
-	
-	
 
-	// 批量添加房间
+	// 添加单个设备号，默认电信
+	public void addnumb(String xpath1, String xpath2, String xpath3, String xpath4, String num1, String num2,
+			String num3) {
+
+		// 点击添加门锁按钮
+		click(xpath1);
+		sleep(num1);
+		// 填写门锁编号
+		input(xpath2, num2);
+		// 填写IMEI号
+		input(xpath3, num3);
+		sleep(num1);
+		// 点击确定
+		click(xpath4);
+		sleep(num1);
+		// 点击确定弹窗
+		alert();
+		sleep(num1);
+
+	}
+
+	// 添加单个房间，已写好xpath简易版，含添加设备号
+	public void addr(String num, String num1, String num2) {
+		// 点击添加房源管理
+		click("//*[@id=\"house_manage_sp\"]/a/span");
+		// 搜索栏填入相关房源
+		sleep("2000");
+		input("//*[@id=\"search_name\"]", num);
+		// 点击搜索
+		click("//*[@id=\"search_house\"]");
+		// 点击添加房间按钮
+		sleep("2000");
+		click("//*[@id=\"add_house\"]");
+		// 输入房间号
+		input("//*[@id=\"roomNum\"]", num1);
+		// 点击门锁选项卡
+		click("/html/body/div[3]/div/div/div[2]/div[2]/div[2]/div/button/span[1]");
+		// 输入门锁编号
+		sleep("1000");
+		input("/html/body/div[3]/div/div/div[2]/div[2]/div[2]/div/div/div/input", num2);
+		click("/html/body/div[3]/div/div/div[2]/div[2]/div[2]/div/div/ul/li[2]/a");
+		// 点击确定
+		sleep("1000");
+		click("/html/body/div[3]/div/div/div[3]/button[1]");
+		sleep("2000");
+		// 点击确定弹窗
+		alert();
+	}
+
+	// 添加单个房间
+	public void addroom(String xpath1, String xpath2, String xpath3, String xpath4, String xpath5, String xpath6,
+			String xpath7, String xpath8, String num, String num1, String num2) {
+		// 点击添加房源管理
+		click(xpath1);
+		// 搜索栏填入相关房源
+		sleep("2000");
+		input(xpath2, num);
+		// 点击搜索
+		click(xpath3);
+		// 点击添加房间按钮
+		sleep("2000");
+		click(xpath4);
+		// 输入房间号
+		input(xpath5, num1);
+		// 点击门锁选项卡
+		click(xpath6);
+		// 输入门锁编号
+		sleep("1000");
+		input(xpath7, num2);
+		click("/html/body/div[3]/div/div/div[2]/div[2]/div[2]/div/div/ul/li[2]/a");
+		// 点击确定
+		sleep("1000");
+		click(xpath8);
+		sleep("2000");
+		// 点击确定弹窗
+		alert();
+	}
+
+	// 批量添加未绑定门锁的空房间
 	public void addrooms(String xpath1, String xpath2, String xpath3, String xpath4, String xpath5, String xpath6,
-			String num, String num1,String num2) {
+			String num, String num1, String num2, String num3) {
 
-			//填写房间编号  n为房间数
-			int n=0;
-			//j为楼层数      num2为楼层房间数
-			for(int j=0,l=1;j<Integer.parseInt(num1)/Integer.parseInt(num2)+1;j++,l++) {
-				if (n>=Integer.parseInt(num1)) {
-					break;
-					}
-				//k为房间尾号    k<10  10为楼层房间数 
-				for(int k=1;k<=Integer.parseInt(num2);k++) {
-					// 点击添加房源管理
-					click(xpath1);
-					// 搜索栏填入相关房源
-					sleep("2000");
-					input(xpath2, num);
-					// 点击搜索
-					click(xpath3);
-
-					// 点击添加房间按钮
-					sleep("2000");
-					click(xpath4);
-					if (0 <= k && k < 10) {
-						if(l<10) {input(xpath5, "1-0"+l+"-0" + k);}
-						else {input(xpath5, "1-"+l+"-0" + k);}
-					}
-					else if(l<10) {input(xpath5, "1-0"+l +"-"+ k);}
-					else {input(xpath5, "1-"+l +"-"+ k);}
-						
-					// 点击确定
-					click(xpath6);
-					sleep("2000");
-					// 点击确定弹窗
-					alert();
-					n++;
-					//创建房间数等于传入数值i，结束循环
-					if (n>=Integer.parseInt(num1)) {
-						break;
-						}
-				}
-						
+		// 填写房间编号 n为房间数
+		int n = 0;
+		// j为楼层数 num2为楼层房间数 num3为第几栋楼
+		for (int j = 0, l = 1; j < Integer.parseInt(num1) / Integer.parseInt(num2) + 1; j++, l++) {
+			if (n >= Integer.parseInt(num1)) {
+				break;
 			}
+			// k为房间尾号 k<10 10为楼层房间数
+			for (int k = 1; k <= Integer.parseInt(num2); k++) {
+				// 点击添加房源管理
+				click(xpath1);
+				// 搜索栏填入相关房源
+				sleep("2000");
+				input(xpath2, num);
+				// 点击搜索
+				click(xpath3);
+
+				// 点击添加房间按钮
+				sleep("2000");
+				click(xpath4);
+				if (0 <= k && k < 10) {
+					if (l < 10) {
+						input(xpath5, num3 + "-0" + l + "-0" + k);
+					} else {
+						input(xpath5, num3 + "-" + l + "-0" + k);
+					}
+				} else if (l < 10) {
+					input(xpath5, num3 + "-0" + l + "-" + k);
+				} else {
+					input(xpath5, num3 + "-" + l + "-" + k);
+				}
+
+				// 点击确定
+				click(xpath6);
+				sleep("2000");
+				// 点击确定弹窗
+				alert();
+				n++;
+				// 创建房间数等于传入数值i，结束循环
+				if (n >= Integer.parseInt(num1)) {
+					break;
+				}
+			}
+
+		}
 	}
 
-	// 绑定管理员
+	// 绑定管理员,同一房源批量绑定同一管理员
 	public void addAdmin(String xpath1, String xpath2, String xpath3, String xpath4, String xpath5, String num) {
 		int room = Integer.parseInt(xpath2);
 		for (int i = 0; i < Integer.parseInt(num); i++) {
@@ -585,29 +621,151 @@ public class U_KeyWords {
 			alert();
 		}
 	}
-	
-	//增加管理员并选择角色权限
-	public void addgl(String xpath1, String xpath2, String xpath3) {
-		//点击账号管理
+
+	// 增加管理员并选择角色权限
+	public void addgl(String name, String pwd, String role) {
+		// 点击账号管理
 		click("//*[@id=\"account_power\"]/a/span");
-		//点击新增账号
+		// 点击新增账号
 		click("//*[@id=\"is_add_account\"]");
-		//填写用户名
-		input("//*[@id=\"account_name\"]",xpath1);
-		//填写密码
-		input("//*[@id=\"account_pw\"]",xpath2);
-		//确认用户密码
-		input("//*[@id=\"again_account_pw\"]",xpath2);
-		//选择用户角色
+		// 填写用户名
+		input("//*[@id=\"account_name\"]", name);
+		// 填写密码
+		input("//*[@id=\"account_pw\"]", pwd);
+		// 确认用户密码
+		input("//*[@id=\"again_account_pw\"]", pwd);
+		// 选择用户角色
 		click("/html/body/div[1]/div[3]/div/div/div[2]/div[4]/div[2]/div/button/div/div/div");
-		input("/html/body/div[1]/div[3]/div/div/div[2]/div[4]/div[2]/div/div/div[1]/input",xpath3);
+		input("/html/body/div[1]/div[3]/div/div/div[2]/div[4]/div[2]/div/div/div[1]/input", role);
 		click("/html/body/div[1]/div[3]/div/div/div[2]/div[4]/div[2]/div/div/div[2]/ul/li/a");
-		//点击确定
+		// 点击确定
 		click("//*[@id=\"sure_adds\"]");
 		sleep("1000");
 		// 点击确定弹窗
 		alert();
 	}
-	
+
+	// 添加门卡,每个房间添加4张
+	public void bdcard(String xpath1, String num, String num1, String num2, String num3, String num4, String num5) {
+
+		// 点击房源管理
+		click("//*[@id=\"house_manage_sp\"]/a/span");
+		// 点击输入设备号
+		input("//*[@id=\"search_deviceNum\"]", num);
+		// 查询
+		sleep("2000");
+		click("//*[@id=\"search_house\"]");
+		// sleep("2000");
+		// 点击房间
+		click(xpath1);
+		// sleep("1000");
+
+		// 点击绑定门卡
+		click("//*[@id=\"add_icCard\"]");
+		// sleep("1000");
+		// 输入门卡名称
+		input("//*[@id=\"cardAlias\"]", num1 + 1);
+		// 输入门卡卡号
+		input("//*[@id=\"cardNum\"]", num2);
+		// sleep("500");
+		// 点击确定
+		click("//*[@id=\"sure_tijiao\"]");
+		// 点击确定弹窗
+		sleep("2000");
+		alert();
+		sleep("2000");
+
+		// 点击绑定门卡
+		click("//*[@id=\"add_icCard\"]");
+		// sleep("1000");
+		// 输入门卡名称
+		input("//*[@id=\"cardAlias\"]", num1 + 2);
+		// 输入门卡卡号
+		input("//*[@id=\"cardNum\"]", num3);
+		// sleep("500");
+		// 点击确定
+		click("//*[@id=\"sure_tijiao\"]");
+		// 点击确定弹窗
+		sleep("2000");
+		alert();
+		sleep("2000");
+
+		// 点击绑定门卡
+		click("//*[@id=\"add_icCard\"]");
+		// sleep("1000");
+		// 输入门卡名称
+		input("//*[@id=\"cardAlias\"]", num1 + 3);
+		// 输入门卡卡号
+		input("//*[@id=\"cardNum\"]", num4);
+		// sleep("500");
+		// 点击确定
+		click("//*[@id=\"sure_tijiao\"]");
+		// 点击确定弹窗
+		sleep("2000");
+		alert();
+		sleep("2000");
+
+		// 点击绑定门卡
+		click("//*[@id=\"add_icCard\"]");
+		// sleep("1000");
+		// 输入门卡名称
+		input("//*[@id=\"cardAlias\"]", num1 + 4);
+		// 输入门卡卡号
+		input("//*[@id=\"cardNum\"]", num5);
+		// sleep("500");
+		// 点击确定
+		click("//*[@id=\"sure_tijiao\"]");
+		// 点击确定弹窗
+		sleep("2000");
+		alert();
+
+		sleep("2000");
+
+	}
+
+	// 将空房间绑定门锁设备号，并绑定固定管理员
+	public void bdadmin(String xpath1, String num1, String num2, String num3, String num4, String num5) {
+		// 房间xpath，房源名，门锁编号，姓名，电话，身份证
+		sleep("2000");
+		// 点击房源管理
+		click("//*[@id=\"house_manage_sp\"]/a/span");
+		sleep("2000");
+		// 写入房源名称
+		input("//*[@id=\"search_name\"]", num1);
+		// 点击搜索
+		click("//*[@id=\"search_house\"]");
+		//向下移动像素
+//		sleep("2000");
+//		pageNext(num6);
+		// 点击房间按钮
+		sleep("2000");
+		click(xpath1);
+		// 点击修改
+		click("//*[@id=\"limit_edit\"]");
+		// 填入门锁编号
+		input("//*[@id=\"update_deviceNum\"]", num2);
+		// 点击保存修改
+		click("//*[@id=\"addChild1\"]/div/div[3]/button[1]");
+		// 点击确定弹窗
+		sleep("2000");
+		alert();
+		sleep("2000");
+		// 点击添加按钮
+		click("//*[@id=\"sure_add\"]");
+		// 填写姓名
+		sleep("2000");
+		input("//*[@id=\"name\"]", num3);
+		// 填写联系电话
+		input("//*[@id=\"mobile\"]", num4);
+		// 填写身份证
+		input("//*[@id=\"card\"]", num5);
+		// 点击添加
+		click("//*[@id=\"addChild3\"]/div/div[3]/button[1]");
+		sleep("2000");
+		// 点击确定弹窗
+		alert();
+		sleep("2000");
+
+	}
 
 }

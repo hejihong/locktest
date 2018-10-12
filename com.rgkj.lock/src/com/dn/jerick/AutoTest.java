@@ -392,9 +392,14 @@ public class AutoTest {
 		case "pagedown":			
 			ui.pageDown();
 			break;
-		
+		case "pagenext":			
+			ui.pageNext(line.get(3));
+			break;
 		case "addnum":
 			ui.addnum(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8),line.get(9),line.get(10));
+			break;
+		case "addnumb":
+			ui.addnumb(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8),line.get(9));
 			break;
 		case "addr":
 			ui.addr(line.get(3),line.get(4),line.get(5));
@@ -403,13 +408,19 @@ public class AutoTest {
 			ui.addroom(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8),line.get(9),line.get(10),line.get(11),line.get(12),line.get(13));
 			break;
 		case "addrooms":
-			ui.addrooms(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8),line.get(9),line.get(10),line.get(11));
+			ui.addrooms(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8),line.get(9),line.get(10),line.get(11),line.get(12));
 			break;
 		case "addadmin":
 			ui.addAdmin(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8));
 			break;	
 		case "addgl":
 			ui.addgl(line.get(3),line.get(4),line.get(5));
+			break;
+		case "bdcard":
+			ui.bdcard(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8),line.get(9));
+			break;
+		case "bdadmin":
+			ui.bdadmin(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8));
 			break;
 		default:
 			System.out.println("关键字未实现!");
