@@ -607,6 +607,12 @@ public class U_KeyWords {
 			// 点击添加按钮
 			sleep("2000");
 			click("//*[@id=\"sure_add\"]");
+			//点击取消
+			sleep("1000");
+			click("//*[@id=\"cancel_add\"]");
+			// 再次点击添加按钮
+			sleep("2000");
+			click("//*[@id=\"sure_add\"]");
 			// 填写姓名
 			sleep("2000");
 			input("//*[@id=\"name\"]", xpath3);
@@ -619,6 +625,9 @@ public class U_KeyWords {
 			sleep("2000");
 			// 点击确定弹窗
 			alert();
+			sleep("1000");
+			click("//*[@id=\"cancel_add\"]");
+			sleep("1000");
 		}
 	}
 
@@ -645,7 +654,7 @@ public class U_KeyWords {
 		alert();
 	}
 
-	// 添加门卡,每个房间添加4张
+	// 添加门卡,根据设备号绑定门卡,每个房间添加4张
 	public void bdcard(String xpath1, String num, String num1, String num2, String num3, String num4, String num5) {
 
 		// 点击房源管理
@@ -725,6 +734,26 @@ public class U_KeyWords {
 
 	// 将空房间绑定门锁设备号，并绑定固定管理员
 	public void bdadmin(String xpath1, String num1, String num2, String num3, String num4, String num5) {
+		String number1,number2;
+		number2="18070101000";
+		number1="18070101000";
+		switch (num2.length()){
+		case 1:
+			number2=number1.concat("000"+num2);
+			break;
+		case 2:
+			number2=number1.concat("00"+num2);
+			break;
+		case 3:
+			number2=number1.concat("0"+num2);
+			break;
+		case 4:
+			number2=number1.concat(num2);
+			break;
+		default:
+			System.out.println("设备号超出范围！");
+		}
+		
 		// 房间xpath，房源名，门锁编号，姓名，电话，身份证
 		sleep("2000");
 		// 点击房源管理
@@ -743,7 +772,7 @@ public class U_KeyWords {
 		// 点击修改
 		click("//*[@id=\"limit_edit\"]");
 		// 填入门锁编号
-		input("//*[@id=\"update_deviceNum\"]", num2);
+		input("//*[@id=\"update_deviceNum\"]", number2);
 		// 点击保存修改
 		click("//*[@id=\"addChild1\"]/div/div[3]/button[1]");
 		// 点击确定弹窗
@@ -752,6 +781,10 @@ public class U_KeyWords {
 		sleep("2000");
 		// 点击添加按钮
 		click("//*[@id=\"sure_add\"]");
+		//点击取消
+		sleep("1000");
+		click("//*[@id=\"cancel_add\"]");
+		// 再次点击添加按钮
 		// 填写姓名
 		sleep("2000");
 		input("//*[@id=\"name\"]", num3);
@@ -764,6 +797,8 @@ public class U_KeyWords {
 		sleep("2000");
 		// 点击确定弹窗
 		alert();
+		sleep("2000");
+		click("//*[@id=\"cancel_add\"]");
 		sleep("2000");
 
 	}
