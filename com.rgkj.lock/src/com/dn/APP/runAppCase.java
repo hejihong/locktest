@@ -106,7 +106,7 @@ public class runAppCase {
 	}
 
 	// 启动appium服务
-	public void runAppium(String platform, String device, String apppkg, String time) {
+	  public void runAppium(String platform, String device, String apppkg, String time) {
 		if (!isPortUsing(4723)) {
 			String cmd = "cmd /c start appium -a 127.0.0.1 -p 4723 --platform-name " + platform
 					+ "  --platform-version 5.1.1 --device-name " + device + " --app-pkg " + apppkg
@@ -123,27 +123,26 @@ public class runAppCase {
 		}
 		return;
 	}
-
-	// // 启动appium服务
-	// public void runAppium(String platform, String device, String
-	// apppkg,String activity,String time) {
-	// if (!isPortUsing(4723)) {
-	// String cmd = "cmd /c start appium -a 127.0.0.1 -p 4723 --platform-name "
-	// + platform + " --platform-version 18 --device-name "
-	// + device + " --app-activity "+ activity +" --app-pkg " + apppkg + "
-	// --automation-name Appium --log-no-color";
-	// runCmd(cmd);
-	// try {
-	// Thread.sleep(Integer.parseInt(time));
-	// } catch (Exception e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// } else {
-	// System.out.println("log::error：Appium 端口4723以被占用，请检查服务是否已经启动");
-	// }
-	// return;
-	// }
+     
+	
+	 // 启动appium服务
+//	 public void runAppium(String platform, String device, String apppkg,String activity,String time) {
+//	 if (!isPortUsing(4723)) {
+//	 String cmd = "cmd /c start appium -a 127.0.0.1 -p 4723 --platform-name "
+//	 + platform + " --platform-version 18 --device-name "
+//	 + device + " --app-activity "+ activity +" --app-pkg " + apppkg + "--automation-name Appium --log-no-color";
+//	 runCmd(cmd);
+//	 try {
+//	 Thread.sleep(Integer.parseInt(time));
+//	 } catch (Exception e) {
+//	 // TODO Auto-generated catch block
+//	 e.printStackTrace();
+//	 }
+//	 } else {
+//	 System.out.println("log::error：Appium 端口4723以被占用，请检查服务是否已经启动");
+//	 }
+//	 return;
+//	 }
 
 	// 启动adb，连接设备
 	public int adbDevice(String device) {
@@ -383,8 +382,13 @@ public class runAppCase {
 	public void openLockXpath() {		
 		// 点击开锁按钮	
 		try {
+			                       
 			driver.findElementByXPath("//android.widget.ImageView[@resource-id='com.ruigao.developtemplateapplication:id/iv_main_scan_code_unlock']").click();
+			                        
 			excel.writeCell(line, 4, "点击开锁成功");
+			//查看是否断开蓝牙
+			wait(1000);
+			bluetooth();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			try {
@@ -399,9 +403,12 @@ public class runAppCase {
 	public void openLockOk() {
 		// 返回首页	
 		try {
+			
+			
 			//点击我知道了
 			
 			driver.findElementByXPath("//android.widget.ImageView[@resource-id='com.ruigao.developtemplateapplication:id/iv_scan_result_ble_unlcok_success']").click();
+			
 			excel.writeCell(line, 5, "蓝牙开锁成功");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -415,6 +422,40 @@ public class runAppCase {
 		}
 	
 	}
+	
+	public void openLockzuobiao() {
+		// 返回首页	
+		try {
+			//如果开锁失败，先点击返回
+			//小米5
+			//clickbycoordinate("610,1460");
+			//华为手机
+			//clickbycoordinate("247,974");
+			//google手机
+			clickbycoordinate("690,1730");
+			wait(2000);
+			//点击我知道了
+			//小米5
+			//clickbycoordinate("510,1290");
+			//华为手机
+			//clickbycoordinate("345,844");
+			//google手机
+			clickbycoordinate("700,1460");
+			excel.writeCell(line, 5, "蓝牙开锁成功");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			try {
+				driver.findElementByXPath("//android.widget.ImageView[@resource-id='com.ruigao.developtemplateapplication:id/iv_scan_unlock_back_fail']").click();
+				excel.writeCell(line,5, "进入远程开锁，返回首页成功");
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				excel.writeCell(line, 5, "蓝牙开锁失败");
+			}
+			
+		}
+	
+	}
+	
 	public void openLockAuto() {
 		wait(2000);
 		openLockXpath();
@@ -422,7 +463,61 @@ public class runAppCase {
 		excel.writeCell(line,3, df.format(new Date()));		
 		wait(55000);
 		openLockOk();
+		wait(35000);
 	}
+	
+	//根据坐标点击开锁
+	public void openLockzb(String zb) {
+		wait(2000);
+		clickbycoordinate(zb);
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+		excel.writeCell(line,3, df.format(new Date()));		
+		wait(143000);
+		openLockzuobiao();
+	}
+	
+	public void openLockzbx(String zb) {
+		wait(2000);
+		clickbycoordinate(zb);
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+		excel.writeCell(line,3, df.format(new Date()));		
+		wait(55000);
+		openLockOk();
+	}
+	
+	//打开手机蓝牙
+	public void openbluetooth() {
+		runAdb("adb shell am start -a android.bluetooth.adapter.action.REQUEST_ENABLE");
+		wait(500);
+		clickByXpath("//android.widget.Button[@resource-id='android:id/button1']");
+		excel.writeCell(line, 6, "打开蓝牙");
+	}
+	
+	//查看你是否有手动打开蓝牙界面
+	public void bluetooth() {
+		try {
+			//查找提示打开蓝牙界面
+		driver.findElementByXPath("//android.widget.TextView[@resource-id='com.ruigao.developtemplateapplication:id/tv_scan_unlock_result1_open_ble_tips']").click();
+		//返回上一页
+		//runAdb("adb shell input keyevent 4");
+		
+		wait(500);
+		openbluetooth();
+		
+	} catch (Exception e) {
+		try {
+			excel.writeCell(line, 6, "蓝牙已打开");
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		}
+	
+	}
+	
+	
 	
 	
 	

@@ -462,7 +462,7 @@ public class U_KeyWords {
 
 	// 添加单个设备号，默认电信
 	public void addnumb(String xpath1, String xpath2, String xpath3, String xpath4, String num1, String num2,
-			String num3) {
+			String num3,String num4) {
 
 		// 点击添加门锁按钮
 		click(xpath1);
@@ -471,6 +471,11 @@ public class U_KeyWords {
 		input(xpath2, num2);
 		// 填写IMEI号
 		input(xpath3, num3);
+		input("//*[@id=\"imsi\"]",num4);
+		sleep(num1);
+		click("//*[@id=\"formid\"]/div/div[4]/div[2]/div/button/div/div/div");
+		sleep(num1);
+		click("//*[@id=\"formid\"]/div/div[4]/div[2]/div/div/div/ul/li[2]/a");
 		sleep(num1);
 		// 点击确定
 		click(xpath4);
@@ -500,7 +505,8 @@ public class U_KeyWords {
 		// 输入门锁编号
 		sleep("1000");
 		input("/html/body/div[3]/div/div/div[2]/div[2]/div[2]/div/div/div/input", num2);
-		click("/html/body/div[3]/div/div/div[2]/div[2]/div[2]/div/div/ul/li[2]/a");
+		click("/html/body/div[3]/div/div/div[2]/div[2]/div[2]/div/div/div[2]/ul/li/a/span[2]");
+		click("/html/body/div[3]/div/div/div[2]");
 		// 点击确定
 		sleep("1000");
 		click("/html/body/div[3]/div/div/div[3]/button[1]");
@@ -510,32 +516,33 @@ public class U_KeyWords {
 	}
 
 	// 添加单个房间
-	public void addroom(String xpath1, String xpath2, String xpath3, String xpath4, String xpath5, String xpath6,
-			String xpath7, String xpath8, String num, String num1, String num2) {
-		// 点击添加房源管理
-		click(xpath1);
-		// 搜索栏填入相关房源
-		sleep("2000");
-		input(xpath2, num);
-		// 点击搜索
-		click(xpath3);
+	public void addroom(String xpath1, String xpath2, String num, String xpath3, String num1, String xpath4,
+			String xpath5, String num2) {
+	
 		// 点击添加房间按钮
 		sleep("2000");
-		click(xpath4);
+		click(xpath1);
 		// 输入房间号
-		input(xpath5, num1);
+		input(xpath2, num);
+		// 输入楼层
+		input(xpath3, num1);
 		// 点击门锁选项卡
-		click(xpath6);
+		click(xpath4);
 		// 输入门锁编号
 		sleep("1000");
-		input(xpath7, num2);
-		click("/html/body/div[3]/div/div/div[2]/div[2]/div[2]/div/div/ul/li[2]/a");
+		input(xpath5, num2);
+		sleep("1000");
+		click("/html/body/div[1]/div[4]/div/div/div[2]/div[4]/div[2]/div/div/div[2]/ul/li/a/span[2]");
+		
+	
 		// 点击确定
 		sleep("1000");
-		click(xpath8);
+		sleep("2000");
+		click("/html/body/div[1]/div[4]/div/div/div[3]/button[1]");
 		sleep("2000");
 		// 点击确定弹窗
-		alert();
+		click("//*[@id=\"layui-layer2\"]/div[3]/a");
+		//alert();
 	}
 
 	// 批量添加未绑定门锁的空房间
@@ -656,11 +663,29 @@ public class U_KeyWords {
 
 	// 添加门卡,根据设备号绑定门卡,每个房间添加4张
 	public void bdcard(String xpath1, String num, String num1, String num2, String num3, String num4, String num5) {
-
+		String number1,number2;
+		number2="18070101000";
+		number1="18070101000";
+		switch (num.length()){
+		case 1:
+			number2=number1.concat("000"+num);
+			break;
+		case 2:
+			number2=number1.concat("00"+num);
+			break;
+		case 3:
+			number2=number1.concat("0"+num);
+			break;
+		case 4:
+			number2=number1.concat(num);
+			break;
+		default:
+			System.out.println("设备号超出范围！");
+		}
 		// 点击房源管理
 		click("//*[@id=\"house_manage_sp\"]/a/span");
 		// 点击输入设备号
-		input("//*[@id=\"search_deviceNum\"]", num);
+		input("//*[@id=\"search_deviceNum\"]", number2);
 		// 查询
 		sleep("2000");
 		click("//*[@id=\"search_house\"]");
@@ -802,5 +827,40 @@ public class U_KeyWords {
 		sleep("2000");
 
 	}
+	
+	//生成二维码
+	public void addewm(String  num) {
+		getUrl("https://cli.im/");
+		input("//*[@id=\"text-content\"]",num);
+		click("//*[@id=\"click-create\"]");
+		sleep("5000");
+
+	}
+	
+	//向配置中添加门锁
+	public void addpz(String xpath1, String xpath2, String xpath3,String xpath4,String xpath5,String num) {
+		// 点击配置门锁
+		click(xpath1);
+		sleep("1000");
+		// 填写设备号
+		input(xpath2, num);
+		sleep("1000");
+		//搜索
+		click(xpath3);
+		sleep("1000");
+		//勾选
+		click(xpath4);
+		sleep("1000");
+		//添加
+		click(xpath5);
+		
+		sleep("1000");
+		sleep("1000");
+		// 点击确定弹窗
+		alert();
+		sleep("1000");
+	}
+	
+	
 
 }

@@ -155,6 +155,9 @@ public class AutoTest {
 		case "runappium":
 			app.runAppium( "Android",line.get(5),line.get(3), line.get(4));
 			break;
+//		case "runappium":
+//			app.runAppium( "Android",line.get(5),line.get(3), line.get(6),line.get(4));
+//			break;
 		case "clickbyxpath":
 			app.clickByXpath(line.get(3));
 			break;
@@ -232,6 +235,15 @@ public class AutoTest {
 			break;
 		case "openlockauto":
 			app.openLockAuto();
+			break;
+		case "openlockzb":
+			app.openLockzb(line.get(3));
+			break;	
+		case "openlockzbx":
+			app.openLockzbx(line.get(3));
+			break;	
+		case "openbluetooth":
+			app.openbluetooth();
 			break;
 		case "wait40000":
 			app.wait(40000);
@@ -399,13 +411,13 @@ public class AutoTest {
 			ui.addnum(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8),line.get(9),line.get(10));
 			break;
 		case "addnumb":
-			ui.addnumb(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8),line.get(9));
+			ui.addnumb(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8),line.get(9),line.get(10));
 			break;
 		case "addr":
 			ui.addr(line.get(3),line.get(4),line.get(5));
 			break;
 		case "addroom":
-			ui.addroom(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8),line.get(9),line.get(10),line.get(11),line.get(12),line.get(13));
+			ui.addroom(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8),line.get(9),line.get(10));
 			break;
 		case "addrooms":
 			ui.addrooms(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8),line.get(9),line.get(10),line.get(11),line.get(12));
@@ -422,6 +434,14 @@ public class AutoTest {
 		case "bdadmin":
 			ui.bdadmin(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8));
 			break;
+		case "addewm":
+			ui.addewm(line.get(3));
+			break;
+		case "addpz":
+			ui.addpz(line.get(3),line.get(4),line.get(5),line.get(6),line.get(7),line.get(8));
+		
+			
+			
 		default:
 			System.out.println("关键字未实现!");
 		}

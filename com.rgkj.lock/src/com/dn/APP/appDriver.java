@@ -13,7 +13,7 @@ public class appDriver { // Android驱动程序
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setCapability("deviceName", deviceName);
 		capabilities.setCapability("platformVersion", platformVersion);
-		// capabilities.setCapability("app", apk);
+		// capabilities.setCapability("app", "C:\\Users\\hjh\\Desktop\\door_lock_admin.apk");
 		capabilities.setCapability("appActivity", appActivity);
 		capabilities.setCapability("noSign", true);
 		capabilities.setCapability("noReset", true);
